@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "name": "src",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "https://github.com/deviantony/docker-elk.git",
+  "author": "eunsukimme <eunsu.dev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
+  }
+}

@@ -19,7 +19,7 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      ELASTIC_PASSWORD: changeme
+      ELASTIC_PASSWORD: $ELASTIC_PASSWORD
       # Use single node discovery in order to disable production mode and avoid bootstrap checks.
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
@@ -68,6 +68,27 @@ services:
       - elk
     depends_on:
       - elasticsearch
+  app:
+    build:
+      context: ./src
+    volumes:
+      - log-data:/app/logs
+    ports:
+      - "4000:4000"
+
+  filebeat:
+    build:
+      context: ./filebeat
+    volumes:
+      - log-data:/var/log/server
+      - type: bind
+        source: ./filebeat/config/filebeat.yml
+        target: /usr/share/filebeat/config/filebeat.yml
+        read_only: true
+    networks:
+      - elk
+    depends_on:
+      - logstash
 
 networks:
   elk:
@@ -75,3 +96,4 @@ networks:
 
 volumes:
   elasticsearch:
+  log-data:
